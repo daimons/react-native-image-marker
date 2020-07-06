@@ -370,7 +370,7 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
                 textWidth = (int) Math.ceil(Math.max(textWidth, textLayout.getLineWidth(a) + textLayout.getLineLeft(a)));
             }
 
-            int margin = 20;
+            int margin = 0;
             float x = margin;
             float y = margin;
 
@@ -810,8 +810,8 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
     static Position getRectFromPosition(String position, int width, int height, int imageWidth, int imageHeigt){
         Log.d("marker", "getRectFromPosition: "+position +" width:" +width+" height: "+height + " imageWidth: " + imageHeigt+" imageHeigt:" + imageHeigt);
 
-        int left = 20;
-        int top = 40;
+        int left = 0;
+        int top = 0;
         int right = imageWidth - width;
         Position pos = new Position(left, top);
         switch (position) {
@@ -823,7 +823,7 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
                 pos.setX(left);
                 break;
             case "topRight":
-                pos.setX(right-20);
+                pos.setX(right);
                 break;
             case "center":
                 left = (imageWidth)/2 - width/2;
@@ -833,19 +833,19 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
                 break;
             case "bottomLeft":
                 top = imageHeigt - height;
-                pos.setY(top-20);
+                pos.setY(top);
                 break;
             case "bottomRight":
                 top = imageHeigt - height;
-                left = imageWidth - width - 20;
-                pos.setX(left-20);
-                pos.setY(top-20);
+                left = imageWidth - width;
+                pos.setX(left);
+                pos.setY(top);
                 break;
             case "bottomCenter":
                 top = imageHeigt - height;
                 left = (imageWidth)/2 - width/2;
-                pos.setX(left-20);
-                pos.setY(top-20);
+                pos.setX(left);
+                pos.setY(top);
 
         }
         return pos;
