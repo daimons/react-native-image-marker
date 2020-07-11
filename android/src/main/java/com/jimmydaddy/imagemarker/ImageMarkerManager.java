@@ -221,7 +221,13 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
 
             if (position != null) {
                 Position pos = getRectFromPosition(position, marker.getWidth(), marker.getHeight(), width, height);
-                canvas.drawBitmap(marker, pos.getX(), pos.getY(), photoPaint);
+
+                Rect src = new Rect(0,0,marker.getWidth(),marker.getHeight());
+
+                Rect desc = new Rect(pos.getX(), pos.getY(), width, height);
+                canvas.drawBitmap(marker, src, desc, photoPaint);
+
+//                canvas.drawBitmap(marker, pos.getX(), pos.getY(), photoPaint);
             } else {
                 canvas.drawBitmap(marker, X, Y, photoPaint);
             }
