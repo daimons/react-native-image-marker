@@ -5,8 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -213,22 +214,24 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
 //                prePhoto = Bitmap.createScaledBitmap(prePhoto, width, height, true);
 //            }
             Canvas canvas = new Canvas(icon);
-
-
             canvas.drawBitmap(bg, 0, 0, photoPaint);
 
             // 原图生成 - end
 
-
+//            float scale = width/marker.getWidth();
             if (position != null) {
-                Position pos = getRectFromPosition(position, marker.getWidth(), marker.getHeight(), width, height);
+                float scalex = (float) width / (float) marker.getWidth();
+                int realMarkerHeight = Math.round(marker.getHeight() * scalex);
+
+                Position pos = getRectFromPosition(position, width, realMarkerHeight, width, height);
+
+//                Position pos = getRectFromPosition(position, Math.round(marker.getWidth()*scale), Math.round(marker.getHeight()*scale), width, height);
 
                 Rect src = new Rect(0,0,marker.getWidth(),marker.getHeight());
-
-                Rect desc = new Rect(pos.getX(), pos.getY(), width, height);
+                RectF desc = new RectF(pos.getX(), pos.getY(), width, height);
                 canvas.drawBitmap(marker, src, desc, photoPaint);
 
-//                canvas.drawBitmap(marker, pos.getX(), pos.getY(), photoPaint);
+
             } else {
                 canvas.drawBitmap(marker, X, Y, photoPaint);
             }
@@ -417,8 +420,8 @@ public class ImageMarkerManager extends ReactContextBaseJavaModule {
                 } else if("stretchY".equals(textBackgroundStyle.type)) {
                     canvas.drawRect(x - textBackgroundStyle.paddingX, 0, x + textWidth + textBackgroundStyle.paddingX, height, paint);
                 } else {
-                    canvas.drawRect(x - textBackgroundStyle.paddingX, y - textBackgroundStyle.paddingY, 
-                    x + textWidth + textBackgroundStyle.paddingX, y + textHeight + textBackgroundStyle.paddingY, paint);
+                    canvas.drawRect(x - textBackgroundStyle.paddingX, y - textBackgroundStyle.paddingY,
+                            x + textWidth + textBackgroundStyle.paddingX, y + textHeight + textBackgroundStyle.paddingY, paint);
                 }
             }
             canvas.save();
